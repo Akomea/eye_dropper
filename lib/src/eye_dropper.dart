@@ -24,7 +24,7 @@ class EyeDropper extends StatefulWidget {
 class _EyeDropperState extends State<EyeDropper> {
   final GlobalKey _renderKey = GlobalKey();
 
-  static const double eyeDropperPadding = 20.0;
+  static const double eyeDropperPadding = 110.0;
   Offset? _lastPickedPosition;
 
 
@@ -94,7 +94,7 @@ class _EyeDropperState extends State<EyeDropper> {
           visible: !(_colorNotifier.value != null && widget.haveTextColorWidget == false),
           child: Positioned(
             left: _offsetNotifier.value.dx - 30,
-            top: _offsetNotifier.value.dy + 20,
+            top: _offsetNotifier.value.dy - eyeDropperPadding +10,
             child: Material(
               shadowColor: Colors.black,
               elevation: 1.0,
@@ -117,7 +117,7 @@ class _EyeDropperState extends State<EyeDropper> {
   Offset getOverlayPosition() {
     double dx = _offsetNotifier.value.dx - kOverlaySize.width / 2;
     double dy =
-        _offsetNotifier.value.dy - kOverlaySize.height + kEyeDropperSize / 2 - 80;
+        _offsetNotifier.value.dy - kOverlaySize.height + kEyeDropperSize / 2 - eyeDropperPadding;
     return Offset(dx, dy);
   }
 
@@ -152,7 +152,7 @@ class _EyeDropperState extends State<EyeDropper> {
     // Adjust the newPosition's y coordinate to pick color from above the touch point
     Offset adjustedPosition = Offset(
         newPosition.dx,
-        newPosition.dy - 80  // Subtract 30 pixels from the y coordinate
+        newPosition.dy - eyeDropperPadding  // Subtract 30 pixels from the y coordinate
     );
 
     var color = getPixelFromByteData(
