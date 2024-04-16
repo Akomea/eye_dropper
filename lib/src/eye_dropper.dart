@@ -24,6 +24,10 @@ class EyeDropper extends StatefulWidget {
 class _EyeDropperState extends State<EyeDropper> {
   final GlobalKey _renderKey = GlobalKey();
 
+  static const double eyeDropperPadding = 20.0;
+  Offset? _lastPickedPosition;
+
+
   ui.Image? _image;
   bool _enableEyeDropper = false;
 
@@ -39,7 +43,7 @@ class _EyeDropperState extends State<EyeDropper> {
     final boundary =
         _renderKey.currentContext!.findRenderObject()! as RenderRepaintBoundary;
 
-    // inital image - byte data
+    // initial image - byte data
     _image = await boundary.toImage();
     _byteDataStateNotifier.value = await _image!.toByteData();
 
@@ -47,7 +51,12 @@ class _EyeDropperState extends State<EyeDropper> {
       // enable color picker
       _enableEyeDropper = true;
       // place the color picker overlay's position in the center
-      updatePosition(Offset(size.width / 2, size.height / 2));
+      // Check if there's a last picked position, otherwise use center
+      if (_lastPickedPosition != null) {
+        updatePosition(_lastPickedPosition!);
+      } else {
+        updatePosition(Offset(size.width / 2, size.height / 2));
+      }
 
       _onEyeDropper = onEyeDropper;
     });
@@ -108,7 +117,7 @@ class _EyeDropperState extends State<EyeDropper> {
   Offset getOverlayPosition() {
     double dx = _offsetNotifier.value.dx - kOverlaySize.width / 2;
     double dy =
-        _offsetNotifier.value.dy - kOverlaySize.height + kEyeDropperSize / 2;
+        _offsetNotifier.value.dy - kOverlaySize.height + kEyeDropperSize / 2 - 80;
     return Offset(dx, dy);
   }
 
@@ -140,19 +149,29 @@ class _EyeDropperState extends State<EyeDropper> {
   }
 
   updatePosition(Offset newPosition) async {
+    // Adjust the newPosition's y coordinate to pick color from above the touch point
+    Offset adjustedPosition = Offset(
+        newPosition.dx,
+        newPosition.dy - 80  // Subtract 30 pixels from the y coordinate
+    );
+
     var color = getPixelFromByteData(
       _byteDataStateNotifier.value!,
       width: _image!.width,
-      x: newPosition.dx.toInt(),
-      y: newPosition.dy.toInt(),
+      x: adjustedPosition.dx.toInt(),
+      y: adjustedPosition.dy.toInt(),
     );
 
     setState(() {
       // update position
-      _offsetNotifier.value = newPosition;
+      _offsetNotifier.value = newPosition;  // Keep the actual touch position for the overlay
 
       // update color
       _colorNotifier.value = color;
+
+      _lastPickedPosition = newPosition;  // Save the last picked position
+
     });
   }
+
 }
