@@ -36,21 +36,33 @@ class EyeDropperOverlay extends StatelessWidget {
                 left: 6,
                 right: 6,
                 child: CircleAvatar(
-                  backgroundColor: color,
+                  backgroundColor: Colors.white,
                   radius: 22,
+                  child: CircleAvatar(
+                    backgroundColor: color,
+                    radius: 20,
+                  ),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 8),
-          Container(
-            height: kEyeDropperSize,
-            width: kEyeDropperSize,
-            decoration: BoxDecoration(
-                color: color,
-                border: Border.all(
-                    width: 1.0, color: overlayColor ?? Colors.black45),
-                borderRadius: BorderRadius.circular(16)),
+
+           Container(
+              height: kEyeDropperSize,
+              width: kEyeDropperSize,
+              decoration: BoxDecoration(
+                  color: color,
+                  border: Border.all(
+                      width: 2.0, color: overlayColor ?? Colors.black45),
+                  borderRadius: BorderRadius.circular(12)),
+              child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      border: Border.all(
+                          width: 2.0, color: Colors.white),
+                      borderRadius: BorderRadius.circular(8)),
+            ),
           ),
         ],
       ),

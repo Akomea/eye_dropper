@@ -15,7 +15,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Color Picker Demo'),
+      home: const MyHomePage(
+          title: 'Flutter Color Picker Demo'),
       builder: (context, child) => EyeDropper(
         // haveTextColorWidget: false, set to false if you want to disable text color widget
         child: child!,
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.deepPurple,
       appBar: AppBar(
         title: Text(widget.title),
       ),

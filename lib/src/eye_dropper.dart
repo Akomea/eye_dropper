@@ -94,7 +94,7 @@ class _EyeDropperState extends State<EyeDropper> {
           visible: !(_colorNotifier.value != null && widget.haveTextColorWidget == false),
           child: Positioned(
             left: _offsetNotifier.value.dx - 30,
-            top: _offsetNotifier.value.dy - eyeDropperPadding +10,
+            top: _offsetNotifier.value.dy - eyeDropperPadding + 15,
             child: Material(
               shadowColor: Colors.black,
               elevation: 1.0,
